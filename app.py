@@ -55,12 +55,30 @@ st.write(data.tail(30)['LandAverageTemperature'])
 fig = px.line(data.tail(30), y='LandAverageTemperature', title="Predicted Temperatures' Graph for the Next 30 Days")
 st.plotly_chart(fig)
 
-# plot the predicted temperature values
-fig = px.line(data, y=['LandAverageTemperature', 'LandAverageTemperature'].tail(30), 
-              labels={'value': 'Temperature (Celsius)', 'index': 'Year'},
-              title='Actual vs Predicted Daily Average Temperature')
-fig.update_traces(name=['Actual', 'Predicted'])
-st.plotly_chart(fig)
+import plotly.express as px
+
+# create a DataFrame containing both the actual and predicted temperatures
+plot_data = pd.concat([data['LandAverageTemperature'], data['LandAverageTemperature'].tail(30)], axis=1)
+plot_data.columns = ['Actual', 'Predicted']
+
+# create the line plot using Plotly Express
+fig = px.line(plot_data, title='Actual vs Predicted Daily Average Temperature')
+fig.update_layout(
+    xaxis_title='Year',
+    yaxis_title='Temperature (Celsius)',
+    legend_title='',
+    title_font_size=24,
+    plot_bgcolor='white',
+    font=dict(
+        family='Arial',
+        size=18,
+        color='black'
+    )
+)
+fig.update_traces(
+    line=dict(width=3)
+)
+fig.show()
 
 # get the date and temperature of the highest predicted temperature
 highest_temp = max(predicted_temps)
