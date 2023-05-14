@@ -70,6 +70,15 @@ highest_temp = max(predicted_temps)
 highest_temp_index = predicted_temps.index(highest_temp)
 highest_temp_date = data.index[-30:][highest_temp_index]
 
+# get the date and temperature of the lowest predicted temperature
+lowest_temp = min(predicted_temps)
+lowest_temp_index = predicted_temps.index(lowest_temp)
+lowest_temp_date = data.index[-30:][lowest_temp_index]
+
 # display the highest predicted temperature and its date
 st.subheader("Highest Predicted Temperature")
 st.write(f"The highest predicted temperature is {highest_temp:.2f}°C and it will happen on {highest_temp_date.date()}.")
+
+# display the lowest predicted temperature and its date
+st.subheader("Lowest Predicted Temperature")
+st.write(f"The lowest predicted temperature is {lowest_temp:.2f}°C and it will happen on {lowest_temp_date.date()}.")
