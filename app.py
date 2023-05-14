@@ -62,4 +62,3 @@ highest_temp_date = data.index[-30:][highest_temp_index]
 # display the highest predicted temperature and its date
 st.subheader("Highest Predicted Temperature")
 st.write(f"The highest predicted temperature is {highest_temp:.2f}°C and it will happen on {highest_temp_date.date()}.")
-st.write("Be sure to stay cool and hydrated, and take necessary precautions to prevent heat-related illnesses.") 
