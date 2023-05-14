@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from tensorflow.keras.models import load_model
+import plotly.express as px
 
 # load the saved LSTM model
 model = load_model('lstm_model.h5')
@@ -18,6 +19,7 @@ def predict_temperature(data):
     return prediction[0][0]
 
 # set up the Streamlit app
+st.set_page_config(page_title="Daily Temperature Predictor", page_icon="🌡️")
 st.title("Daily Temperature Predictor")
 st.write("This app predicts the next 30 days' average temperature in Szeged, Hungary based on historical data.")
 
@@ -47,3 +49,7 @@ for i in range(30):
 # display the predicted temperature values for the next 30 days
 st.subheader("Next 30 Days' Predicted Temperatures")
 st.write(data.tail(30)['LandAverageTemperature'])
+
+# plot the predicted temperatures using Plotly Express
+fig = px.line(data.tail(30), y='LandAverageTemperature', title="Predicted Temperatures for the Next 30 Days")
+st.plotly_chart(fig)
