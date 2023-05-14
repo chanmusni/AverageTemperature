@@ -29,8 +29,8 @@ st.title("Daily Temperature Predictor")
 st.write("This app predicts the next day's average temperature in Szeged, Hungary based on historical data.")
 
 # load the temperature data
-data = pd.read_csv('GlobalTemperatures.csv', parse_dates=['Date'])
-data.set_index('Date', inplace=True)
+data = pd.read_csv('GlobalTemperatures.csv', parse_dates=['dt'])
+data.set_index('dt', inplace=True)
 
 # display the current temperature data
 st.subheader("Current Temperature Data")
