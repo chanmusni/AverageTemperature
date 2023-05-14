@@ -48,6 +48,10 @@ for i in range(30):
 st.subheader("Next 30 Days' Predicted Temperatures")
 st.write(data.tail(30)['LandAverageTemperature'])
 
+# plot the predicted temperatures using Plotly Express
+fig = px.line(data.tail(30), y='LandAverageTemperature', title="Predicted Temperatures for the Next 30 Days")
+st.plotly_chart(fig)
+
 # get the date and temperature of the highest predicted temperature
 highest_temp = max(predicted_temps)
 highest_temp_index = predicted_temps.index(highest_temp)
