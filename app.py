@@ -4,6 +4,7 @@ import numpy as np
 from tensorflow.keras.models import load_model
 import plotly.express as px
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # load the saved LSTM model
 model = load_model('lstm_model.h5')
@@ -55,30 +56,31 @@ st.write(data.tail(30)['LandAverageTemperature'])
 fig = px.line(data.tail(30), y='LandAverageTemperature', title="Predicted Temperatures' Graph for the Next 30 Days")
 st.plotly_chart(fig)
 
-import plotly.express as px
+# plot the predicted temperature values
+sns.set_style('whitegrid')
+fig, ax = plt.subplots(figsize=(10, 6))
 
-# create a DataFrame containing both the actual and predicted temperatures
-plot_data = pd.concat([data['LandAverageTemperature'], data['LandAverageTemperature'].tail(30)], axis=1)
-plot_data.columns = ['Actual', 'Predicted']
+# plot actual temperature
+sns.lineplot(data=data['LandAverageTemperature'], label='Actual', color='navy')
 
-# create the line plot using Plotly Express
-fig = px.line(plot_data, title='Actual vs Predicted Daily Average Temperature')
-fig.update_layout(
-    xaxis_title='Year',
-    yaxis_title='Temperature (Celsius)',
-    legend_title='',
-    title_font_size=24,
-    plot_bgcolor='white',
-    font=dict(
-        family='Arial',
-        size=18,
-        color='black'
-    )
-)
-fig.update_traces(
-    line=dict(width=3)
-)
-fig.show()
+# plot predicted temperature
+sns.lineplot(data=data['LandAverageTemperature'].tail(30), label='Predicted', color='orange')
+
+# set axes labels and title
+ax.set_xlabel('Year', fontsize=14)
+ax.set_ylabel('Temperature (Celsius)', fontsize=14)
+ax.set_title('Actual vs Predicted Daily Average Temperature', fontsize=16)
+
+# set legend properties
+ax.legend(loc='best', fontsize=12)
+
+# hide the right and top spines
+sns.despine()
+
+# save and show the plot
+plt.tight_layout()
+plt.savefig('temperature.png', dpi=300)
+plt.show()
 
 # get the date and temperature of the highest predicted temperature
 highest_temp = max(predicted_temps)
