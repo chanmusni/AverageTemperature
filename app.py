@@ -44,7 +44,7 @@ latest_date = data.index[-1]
 
 # get the predicted temperature value for the next day
 next_date = latest_date + pd.Timedelta(days=1)
-predicted_temp = predict_temperature(np.array(data['Temperature']))
+predicted_temp = predict_temperature(np.array(data['LandAverageTemperature']))
 
 # display the predicted temperature value for the next day
 st.subheader("Next Day's Predicted Temperature")
