@@ -59,6 +59,13 @@ ax.set_title('Actual vs Predicted Daily Average Temperature')
 ax.legend()
 st.pyplot(fig)
 
+# display the predicted temperature values for the next 30 days
+st.subheader("Next 30 Days' Predicted Temperatures")
+st.write(data.tail(30)['LandAverageTemperature'])
+
+# plot the predicted temperatures using Plotly Express
+fig = px.line(data.tail(30), y='LandAverageTemperature', title="Predicted Temperatures for the Next 30 Days")
+st.plotly_chart(fig)
 # plot the predicted temperatures using Plotly Express
 fig = px.line(data.tail(30), y='LandAverageTemperature', title="Predicted Temperatures for the Next 30 Days")
 st.plotly_chart(fig)
