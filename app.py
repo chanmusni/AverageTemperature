@@ -37,7 +37,7 @@ st.subheader("Current Temperature Data")
 st.write(data.tail())
 
 # get the latest temperature value
-latest_temp = data['Temperature'].iloc[-1]
+latest_temp = data['LandAverageTemperature'].iloc[-1]
 
 # get the date of the latest temperature value
 latest_date = data.index[-1]
