@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from tensorflow.keras.models import load_model
-import plotly.express as px
 
 # load the saved LSTM model
 model = load_model('lstm_model.h5')
@@ -19,7 +18,6 @@ def predict_temperature(data):
     return prediction[0][0]
 
 # set up the Streamlit app
-st.set_page_config(page_title="Daily Temperature Predictor", page_icon="🌡️")
 st.title("Daily Temperature Predictor")
 st.write("This app predicts the next 30 days' average temperature in Szeged, Hungary based on historical data.")
 
@@ -50,13 +48,12 @@ for i in range(30):
 st.subheader("Next 30 Days' Predicted Temperatures")
 st.write(data.tail(30)['LandAverageTemperature'])
 
-# plot the predicted temperatures using Plotly Express
-fig = px.line(data.tail(30), y='LandAverageTemperature', title="Predicted Temperatures for the Next 30 Days")
-st.plotly_chart(fig)
-
-# get the highest predicted temperature for the next 30 days
+# get the date and temperature of the highest predicted temperature
 highest_temp = max(predicted_temps)
-if highest_temp > 30:
-    st.warning("WARNING: The temperature is predicted to exceed 30°C in the next 30 days. Be sure to stay hydrated and avoid prolonged exposure to the sun.")
-else:
-    st.write("The highest predicted temperature in the next 30 days is:", round(highest_temp, 2), "°C. Enjoy the weather!")
+highest_temp_index = predicted_temps.index(highest_temp)
+highest_temp_date = data.index[-30:][highest_temp_index]
+
+# display the highest predicted temperature and its date
+st.subheader("Highest Predicted Temperature")
+st.write(f"The highest predicted temperature is {highest_temp:.2f}°C and it will happen on {highest_temp_date.date()}.")
+st.write("Be sure to stay cool and hydrated, and take necessary precautions to prevent heat-related illnesses.") 
