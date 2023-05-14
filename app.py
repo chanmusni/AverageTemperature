@@ -9,9 +9,9 @@ import matplotlib.pyplot as plt
 model = load_model('lstm_model.h5')
 
 # function to make predictions using the loaded model
-def predict_temperature(data):
-    # slice the data to only include the last 60 days
-    data = data[-365:]
+def predict_temperature(data, num_days=60):
+    # slice the data to only include the last num_days
+    data = data[-num_days:]
     # reshape the input data to match the expected input shape of the model
     data = data.reshape((1, data.shape[0], 1))
     # make the prediction
@@ -38,15 +38,16 @@ latest_temp = data['LandAverageTemperature'].iloc[-1]
 # get the date of the latest temperature value
 latest_date = data.index[-1]
 
-# make predictions for the next 30 days
+# make predictions for the next 30 days based on the last 365 days of data
+num_days = 365
 predicted_temps = []
 for i in range(30):
     next_date = latest_date + pd.Timedelta(days=1)
-    predicted_temp = predict_temperature(np.array(data['LandAverageTemperature']))
+    predicted_temp = predict_temperature(np.array(data['LandAverageTemperature']), num_days=num_days)
     predicted_temps.append(predicted_temp)
     latest_date = next_date
     data.loc[next_date] = predicted_temp
-
+    
 # display the predicted temperature values for the next 30 days
 st.subheader("Next 30 Days' Predicted Temperatures")
 st.write(data.tail(30)['LandAverageTemperature'])
