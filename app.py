@@ -18,19 +18,16 @@ def predict_temperature(data):
     return prediction[0][0]
 
 # set up the Streamlit app
-st.set_page_config(page_title="Daily Temperature Predictor", page_icon=":sunny:")
 st.title("Daily Temperature Predictor")
-st.write("This app predicts the average temperature in Szeged, Hungary for the next 30 days based on historical data.")
-st.write("")
+st.write("This app predicts the next 30 days' average temperature in Szeged, Hungary based on historical data.")
 
 # load the temperature data
 data = pd.read_csv('GlobalTemperatures.csv', parse_dates=['dt'])
 data.set_index('dt', inplace=True)
 
 # display the current temperature data
-st.header("Current Temperature Data")
-st.dataframe(data.tail())
-st.write("")
+st.subheader("Current Temperature Data")
+st.write(data.tail())
 
 # get the latest temperature value
 latest_temp = data['LandAverageTemperature'].iloc[-1]
@@ -38,12 +35,15 @@ latest_temp = data['LandAverageTemperature'].iloc[-1]
 # get the date of the latest temperature value
 latest_date = data.index[-1]
 
-# get the predicted temperature values for the next 30 days
-next_dates = [latest_date + pd.Timedelta(days=i) for i in range(1,31)]
-predicted_temps = [predict_temperature(np.array(data['LandAverageTemperature'][-60:])) for i in range(30)]
+# make predictions for the next 30 days
+predicted_temps = []
+for i in range(30):
+    next_date = latest_date + pd.Timedelta(days=1)
+    predicted_temp = predict_temperature(np.array(data['LandAverageTemperature']))
+    predicted_temps.append(predicted_temp)
+    latest_date = next_date
+    data.loc[next_date] = predicted_temp
 
 # display the predicted temperature values for the next 30 days
-st.header("Predicted Temperature for the Next 30 Days")
-for i in range(30):
-    st.write(f"Date: {next_dates[i].strftime('%Y-%m-%d')}, Predicted Temperature: {predicted_temps[i]:.2f} °C")
-    st.write("")
+st.subheader("Next 30 Days' Predicted Temperatures")
+st.write(data.tail(30)['LandAverageTemperature'])
