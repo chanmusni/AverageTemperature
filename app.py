@@ -48,16 +48,6 @@ for i in range(30):
 st.subheader("Next 30 Days' Predicted Temperatures")
 st.write(data.tail(30)['LandAverageTemperature'])
 
-# plot the predicted temperature values
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(data['LandAverageTemperature'], label='Actual')
-ax.plot(data['LandAverageTemperature'].tail(30), label='Predicted')
-ax.set_xlabel('Year')
-ax.set_ylabel('Temperature (Celsius)')
-ax.set_title('Actual vs Predicted Daily Average Temperature')
-ax.legend()
-st.pyplot(fig)
-
 # get the date and temperature of the highest predicted temperature
 highest_temp = max(predicted_temps)
 highest_temp_index = predicted_temps.index(highest_temp)
