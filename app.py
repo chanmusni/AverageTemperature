@@ -17,6 +17,8 @@ model = load_model('lstm_model.h5')
 
 # function to make predictions using the loaded model
 def predict_temperature(data):
+    # slice the data to only include the last 60 days
+    data = data[-60:]
     # reshape the input data to match the expected input shape of the model
     data = data.reshape((1, data.shape[0], 1))
     # make the prediction
