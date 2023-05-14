@@ -28,27 +28,22 @@ def predict_temperature(data):
 
 # set up the Streamlit app
 st.title("Daily Temperature Predictor")
-st.write("This app predicts the next day's average temperature in Szeged, Hungary based on historical data.")
+st.write("This app predicts the average temperature for May 2023 in Szeged, Hungary based on historical data.")
 
 # load the temperature data
 data = pd.read_csv('GlobalTemperatures.csv', parse_dates=['dt'])
 data.set_index('dt', inplace=True)
 
+# slice the data to only include May 2023
+data = data.loc['2023-05']
+
 # display the current temperature data
-st.subheader("Current Temperature Data")
-st.write(data.tail())
+st.subheader("Temperature Data for May 2023")
+st.write(data)
 
-# get the latest temperature value
-latest_temp = data['LandAverageTemperature'].iloc[-1]
-
-# get the date of the latest temperature value
-latest_date = data.index[-1]
-
-# get the predicted temperature value for the next day
-next_date = latest_date + pd.Timedelta(days=1)
+# get the predicted temperature value for May 2023
 predicted_temp = predict_temperature(np.array(data['LandAverageTemperature']))
 
-# display the predicted temperature value for the next day
-st.subheader("Next Day's Predicted Temperature")
-st.write("Date:", next_date)
+# display the predicted temperature value for May 2023
+st.subheader("Predicted Temperature for May 2023")
 st.write("Predicted Temperature:", predicted_temp)
