@@ -57,30 +57,14 @@ fig = px.line(data.tail(30), y='LandAverageTemperature', title="Predicted Temper
 st.plotly_chart(fig)
 
 # plot the predicted temperature values
-sns.set_style('whitegrid')
-fig, ax = plt.subplots(figsize=(10, 6))
-
-# plot actual temperature
-sns.lineplot(data=data['LandAverageTemperature'], label='Actual', color='navy')
-
-# plot predicted temperature
-sns.lineplot(data=data['LandAverageTemperature'].tail(30), label='Predicted', color='orange')
-
-# set axes labels and title
-ax.set_xlabel('Year', fontsize=14)
-ax.set_ylabel('Temperature (Celsius)', fontsize=14)
-ax.set_title('Actual vs Predicted Daily Average Temperature', fontsize=16)
-
-# set legend properties
-ax.legend(loc='best', fontsize=12)
-
-# hide the right and top spines
-sns.despine()
-
-# save and show the plot
-plt.tight_layout()
-plt.savefig('temperature.png', dpi=300)
-plt.show()
+fig, ax = plt.subplots(figsize=(8, 4))
+sns.lineplot(data=data['LandAverageTemperature'], label='Actual', ax=ax)
+sns.lineplot(data=data['LandAverageTemperature'].tail(30), label='Predicted', ax=ax)
+ax.set_xlabel('Year')
+ax.set_ylabel('Temperature (Celsius)')
+ax.set_title('Actual vs Predicted Daily Average Temperature')
+ax.legend()
+st.pyplot(fig)
 
 # get the date and temperature of the highest predicted temperature
 highest_temp = max(predicted_temps)
