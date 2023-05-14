@@ -56,14 +56,11 @@ fig = px.line(data.tail(30), y='LandAverageTemperature', title="Predicted Temper
 st.plotly_chart(fig)
 
 # plot the predicted temperature values
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(data['LandAverageTemperature'], label='Actual')
-ax.plot(data['LandAverageTemperature'].tail(30), label='Predicted')
-ax.set_xlabel('Year')
-ax.set_ylabel('Temperature (Celsius)')
-ax.set_title('Actual vs Predicted Daily Average Temperature')
-ax.legend()
-st.pyplot(fig)
+fig = px.line(data, y=['LandAverageTemperature', 'LandAverageTemperature'].tail(30), 
+              labels={'value': 'Temperature (Celsius)', 'index': 'Year'},
+              title='Actual vs Predicted Daily Average Temperature')
+fig.update_traces(name=['Actual', 'Predicted'])
+st.plotly_chart(fig)
 
 # get the date and temperature of the highest predicted temperature
 highest_temp = max(predicted_temps)
