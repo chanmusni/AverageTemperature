@@ -59,6 +59,7 @@ import seaborn as sns
 
 # Set style and color palette
 sns.set_style('darkgrid')
+sns.set_palette('husl')
 sns.color_palette("husl", 8)
 
 # plot the predicted temperature values
