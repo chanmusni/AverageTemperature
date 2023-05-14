@@ -55,15 +55,28 @@ st.write(data.tail(30)['LandAverageTemperature'])
 fig = px.line(data.tail(30), y='LandAverageTemperature', title="Predicted Temperatures' Graph for the Next 30 Days")
 st.plotly_chart(fig)
 
+import seaborn as sns
+
+# Set style and color palette
+sns.set_style('darkgrid')
+sns.set_palette('Blues')
+
 # plot the predicted temperature values
-fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(data['LandAverageTemperature'], label='Actual')
-ax.plot(data['LandAverageTemperature'].tail(30), label='Predicted')
-ax.set_xlabel('Year')
-ax.set_ylabel('Temperature (Celsius)')
-ax.set_title('Actual vs Predicted Daily Average Temperature')
-ax.legend()
+fig, ax = plt.subplots(figsize=(10, 5))
+sns.lineplot(data=data['LandAverageTemperature'], label='Actual', ax=ax)
+sns.lineplot(data=data['LandAverageTemperature'].tail(30), label='Predicted', ax=ax)
+
+# Add titles and axis labels
+ax.set_xlabel('Year', fontsize=12)
+ax.set_ylabel('Temperature (Celsius)', fontsize=12)
+ax.set_title('Actual vs Predicted Daily Average Temperature', fontsize=16)
+
+# Customize legend and tick labels
+ax.legend(['Actual', 'Predicted'], fontsize=12, loc='upper left')
+ax.tick_params(axis='both', labelsize=10)
+
 st.pyplot(fig)
+
 
 # get the date and temperature of the highest predicted temperature
 highest_temp = max(predicted_temps)
