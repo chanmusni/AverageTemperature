@@ -59,7 +59,7 @@ import seaborn as sns
 
 # Set style and color palette
 sns.set_style('darkgrid')
-sns.set_palette('Blues')
+sns.set_palette('red')
 
 # plot the predicted temperature values
 fig, ax = plt.subplots(figsize=(10, 5))
